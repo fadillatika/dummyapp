@@ -1,34 +1,526 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Pendataan</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+    <style>
+        /* --- Navbar Styles --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-bottom: 60px;
+        }
+
+        nav {
+            background: #2c3e50;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #logoutBtn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: auto;
+        }
+
+        /* --- Form Styles --- */
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px 18px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Gender image buttons */
+        .gender-options {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .gender-option {
+            cursor: pointer;
+            border: 2px solid transparent;
+            padding: 5px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .gender-option.selected {
+            border-color: #3498db;
+            background-color: #d6eaff;
+        }
+
+        .gender-option img {
+            width: 80px;
+            height: 80px;
+            display: block;
+            margin: 0 auto 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        select,
+        input[type="text"],
+        input[type="date"],
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            box-sizing: border-box;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.85em;
+            margin-top: 4px;
+            min-height: 18px;
+        }
+
+        /* Multiple checkbox group */
+        .multi-checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="index.html">Landing Page</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="free-trial.html">Free Trial Test</a></li>
-                <li><a href="auth.html">Authentication</a></li>
-                <li><a href="homepage.html">Homepage</a></li>
-                <li><a href="pendataan.html">Pendataan</a></li>
-                <li><a href="result.html">Result</a></li>
-                <li><a href="manage-profile.html">Manage Profile</a></li>
-                <li><button id="logoutBtn">Logout</button></li>
-            </ul>
+            <a href="index.html">Landing Page</a>
+            <a href="about.html">About Us</a>
+            <a href="auth.html">Authentication</a>
+            <a href="homepage.html">Homepage</a>
+            <a href="pendataan.html">Pendataan</a>
+            <a href="result.html">Result</a>
+            <a href="manage-profile.html">Manage Profile</a>
+            <button id="logoutBtn">Logout</button>
         </nav>
     </header>
+
     <main>
-        <h1>Pendataan</h1>
-        <p>Dummy data collection page.</p>
+        <h1>Form Pendataan</h1>
+
+        <form id="multiStepForm" novalidate>
+            <!-- Step 0: Referral Code -->
+            <section class="step active" data-step="0">
+                <label for="referralCode">Referral Code (optional):</label>
+                <input type="text" id="referralCode" name="referralCode" />
+                <div class="error-message" id="error-referralCode"></div>
+            </section>
+
+            <!-- Step 1: Gender + Jenjang Pendidikan -->
+            <section class="step" data-step="1">
+                <label>Gender:</label>
+                <div class="gender-options">
+                    <div class="gender-option" data-value="Female" tabindex="0">
+                        <img src="https://i.imgur.com/iCXaWdb.png" alt="Female" />
+                        <div>Cewek</div>
+                        <input type="radio" id="genderFemale" name="gender" value="Female" style="display:none" />
+                    </div>
+                    <div class="gender-option" data-value="Male" tabindex="0">
+                        <img src="https://i.imgur.com/tlg3L32.png" alt="Male" />
+                        <div>Cowok</div>
+                        <input type="radio" id="genderMale" name="gender" value="Male" style="display:none" />
+                    </div>
+                </div>
+                <div class="error-message" id="error-gender"></div>
+
+                <label for="educationLevel">Jenjang Pendidikan:</label>
+                <select id="educationLevel" name="educationLevel">
+                    <option value="">-- Pilih Jenjang Pendidikan --</option>
+                    <option value="SMA">SMA</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="S1">S1</option>
+                    <option value="S2">S2</option>
+                    <option value="S3">S3</option>
+                </select>
+                <div class="error-message" id="error-educationLevel"></div>
+            </section>
+
+            <!-- Step 2: Profil -->
+            <section class="step" data-step="2">
+                <label for="birthDate">Tanggal Lahir:</label>
+                <input type="date" id="birthDate" name="birthDate" />
+                <div class="error-message" id="error-birthDate"></div>
+
+                <label for="province">Provinsi:</label>
+                <select id="province" name="province">
+                    <option value="">-- Pilih Provinsi --</option>
+                    <option value="Jawa Barat">Jawa Barat</option>
+                    <option value="Jawa Tengah">Jawa Tengah</option>
+                    <option value="Jawa Timur">Jawa Timur</option>
+                    <!-- Tambah provinsi lain sesuai kebutuhan -->
+                </select>
+                <div class="error-message" id="error-province"></div>
+
+                <label for="city">Kota:</label>
+                <select id="city" name="city">
+                    <option value="">-- Pilih Kota --</option>
+                    <!-- Kota akan diisi dinamis berdasar provinsi -->
+                </select>
+                <div class="error-message" id="error-city"></div>
+
+                <label for="address">Alamat:</label>
+                <input type="text" id="address" name="address" />
+                <div class="error-message" id="error-address"></div>
+            </section>
+
+            <!-- Step 3: Edukasi -->
+            <section class="step" data-step="3">
+                <label for="nim">NIM (angka):</label>
+                <input type="number" id="nim" name="nim" />
+                <div class="error-message" id="error-nim"></div>
+
+                <label for="eduProvince">Provinsi Sekolah:</label>
+                <select id="eduProvince" name="eduProvince">
+                    <option value="">-- Pilih Provinsi Sekolah --</option>
+                    <option value="Jawa Barat">Jawa Barat</option>
+                    <option value="Jawa Tengah">Jawa Tengah</option>
+                    <option value="Jawa Timur">Jawa Timur</option>
+                </select>
+                <div class="error-message" id="error-eduProvince"></div>
+
+                <label for="schoolOrigin">Asal Sekolah:</label>
+                <select id="schoolOrigin" name="schoolOrigin">
+                    <option value="">-- Pilih Asal Sekolah --</option>
+                    <option value="SMA Negeri 1">SMA Negeri 1</option>
+                    <option value="SMA Negeri 2">SMA Negeri 2</option>
+                    <option value="SMA Negeri 3">SMA Negeri 3</option>
+                </select>
+                <div class="error-message" id="error-schoolOrigin"></div>
+
+                <label for="interestedMajor">Tertarik Jurusan:</label>
+                <input type="text" id="interestedMajor" name="interestedMajor" />
+                <div class="error-message" id="error-interestedMajor"></div>
+
+                <label>Tertarik mendaftar ke?</label>
+                <div class="multi-checkbox-group">
+                    <label><input type="checkbox" name="interestedRegister" value="PTN" /> PTN</label>
+                    <label><input type="checkbox" name="interestedRegister" value="PTS" /> PTS</label>
+                    <label><input type="checkbox" name="interestedRegister" value="PTLN" /> PTLN</label>
+                </div>
+                <div class="error-message" id="error-interestedRegister"></div>
+            </section>
+
+            <!-- Step 4: Socmed -->
+            <section class="step" data-step="4">
+                <label for="socmed1">Sosial Media 1:</label>
+                <input type="text" id="socmed1" name="socmed1" />
+                <div class="error-message" id="error-socmed1"></div>
+
+                <label for="socmed2">Sosial Media 2:</label>
+                <input type="text" id="socmed2" name="socmed2" />
+                <div class="error-message" id="error-socmed2"></div>
+
+                <label for="socmed3">Sosial Media 3:</label>
+                <input type="text" id="socmed3" name="socmed3" />
+                <div class="error-message" id="error-socmed3"></div>
+
+                <label for="socmed4">Sosial Media 4:</label>
+                <input type="text" id="socmed4" name="socmed4" />
+                <div class="error-message" id="error-socmed4"></div>
+
+                <label for="socmed5">Sosial Media 5:</label>
+                <input type="text" id="socmed5" name="socmed5" />
+                <div class="error-message" id="error-socmed5"></div>
+
+                <label for="socmed6">Sosial Media 6:</label>
+                <input type="text" id="socmed6" name="socmed6" />
+                <div class="error-message" id="error-socmed6"></div>
+
+                <label for="socmed7">Sosial Media 7:</label>
+                <input type="text" id="socmed7" name="socmed7" />
+                <div class="error-message" id="error-socmed7"></div>
+
+                <label for="socmed8">Sosial Media 8:</label>
+                <input type="text" id="socmed8" name="socmed8" />
+                <div class="error-message" id="error-socmed8"></div>
+            </section>
+
+            <!-- Step 5: Review -->
+            <section class="step" data-step="5">
+                <h3>Harap Periksa Kembali Data Anda</h3>
+
+                <button type="button" id="btnShowReview" style="margin-bottom: 15px;">Lihat Hasil Pengisian</button>
+
+                <div id="reviewContent"
+                    style="white-space: pre-wrap; border: 1px solid #ccc; padding: 15px; border-radius: 5px; max-height: 0; overflow: hidden; opacity: 0; transition: max-height 0.5s ease, opacity 0.5s ease;">
+                </div>
+
+                <div class="buttons" style="margin-top: 20px;">
+                    <button type="button" id="btnPrevReview">Prev</button>
+                    <button type="submit" id="btnSubmit" style="display:none;">Submit</button>
+                </div>
+            </section>
+
+            <!-- Navigasi umum -->
+            <div class="buttons" id="navButtons">
+                <button type="button" id="btnPrev" disabled>Prev</button>
+                <button type="button" id="btnNext">Next</button>
+            </div>
+        </form>
     </main>
+
+    <script>
+        const form = document.getElementById('multiStepForm');
+        const steps = form.querySelectorAll('.step');
+        const btnNext = document.getElementById('btnNext');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnPrevReview = document.getElementById('btnPrevReview');
+        const btnSubmit = document.getElementById('btnSubmit');
+        const reviewContent = document.getElementById('reviewContent');
+        const btnShowReview = document.getElementById('btnShowReview');
+
+        let currentStep = 0;
+
+        btnShowReview.addEventListener('click', () => {
+            if (!reviewContent.textContent.trim()) {
+                fillReview();
+            }
+
+            const isVisible = reviewContent.style.maxHeight !== '0px' && reviewContent.style.maxHeight !== '';
+
+            if (isVisible) {
+                reviewContent.style.maxHeight = '0';
+                reviewContent.style.opacity = '0';
+                btnSubmit.style.display = 'inline-block';
+                btnShowReview.textContent = 'Lihat Hasil Pengisian';
+            } else {
+                reviewContent.style.maxHeight = reviewContent.scrollHeight + 'px';
+                reviewContent.style.opacity = '1';
+                btnSubmit.style.display = 'none';
+                btnShowReview.textContent = 'Sembunyikan Hasil Pengisian';
+            }
+        });
+
+        // Gender image select logic
+        const genderOptions = document.querySelectorAll('.gender-option');
+        genderOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                genderOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                const val = option.getAttribute('data-value');
+                const radio = option.querySelector('input[type="radio"]');
+                radio.checked = true;
+            });
+            // for keyboard accessibility
+            option.addEventListener('keydown', e => {
+                if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    option.click();
+                }
+            });
+        });
+
+        // Dynamic city options based on province selection
+        const provinceCityMap = {
+            "Jawa Barat": ["Bandung", "Bekasi", "Bogor"],
+            "Jawa Tengah": ["Semarang", "Surakarta", "Magelang"],
+            "Jawa Timur": ["Surabaya", "Malang", "Mojokerto"]
+        };
+
+        document.getElementById('province').addEventListener('change', function () {
+            const citySelect = document.getElementById('city');
+            citySelect.innerHTML = '<option value="">-- Pilih Kota --</option>';
+            const cities = provinceCityMap[this.value] || [];
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        });
+
+        function clearErrors(step) {
+            const errorDivs = steps[step].querySelectorAll('.error-message');
+            errorDivs.forEach(div => {
+                div.textContent = '';
+            });
+        }
+
+        function validateStep(index) {
+            const referralCode = form.referralCode.value.trim();
+            const referralGiven = referralCode !== '';
+
+            clearErrors(index);
+
+            // Step 0: referralCode always valid, optional
+            if (index === 0) return true;
+
+            // Step 4 (socmed) always optional
+            if (index === 4) return true;
+
+            let valid = true;
+            const stepEl = steps[index];
+            const inputs = stepEl.querySelectorAll('input, select');
+
+            for (const input of inputs) {
+                const errorDiv = stepEl.querySelector(`#error-${input.id}`) || stepEl.querySelector(`#error-${input.name}`);
+                // Skip socmed always optional
+                if (input.name && input.name.startsWith('socmed')) {
+                    continue;
+                }
+
+                if (!referralGiven) {
+                    // All mandatory (except socmed)
+                    if (input.type === 'radio') {
+                        // check if any radio in this group checked
+                        const radios = form.querySelectorAll(`input[name="${input.name}"]`);
+                        if (![...radios].some(r => r.checked)) {
+                            if (errorDiv) errorDiv.textContent = 'Mohon pilih opsi ini.';
+                            valid = false;
+                        }
+                    } else if (input.type === 'checkbox' && input.name === 'interestedRegister') {
+                        // multiple checkbox validation
+                        const checkboxes = form.querySelectorAll('input[name="interestedRegister"]');
+                        if (![...checkboxes].some(cb => cb.checked)) {
+                            const firstErrorDiv = stepEl.querySelector('#error-interestedRegister');
+                            if (firstErrorDiv) firstErrorDiv.textContent = 'Mohon pilih minimal satu opsi.';
+                            valid = false;
+                            break;
+                        }
+                    } else {
+                        if (!input.value.trim()) {
+                            if (errorDiv) errorDiv.textContent = 'Field ini wajib diisi.';
+                            valid = false;
+                        }
+                    }
+                } else {
+                    // Referral code given → all optional except socmed (already skipped)
+                    // no validation needed here
+                }
+            }
+
+            return valid;
+        }
+
+        function showStep(index) {
+            steps.forEach((step, i) => {
+                step.classList.toggle('active', i === index);
+            });
+            currentStep = index;
+            btnPrev.disabled = index === 0;
+            btnNext.style.display = (index === steps.length - 1) ? 'none' : 'inline-block';
+            document.getElementById('navButtons').style.display = (index === steps.length - 1) ? 'none' : 'flex';
+
+            if (index === steps.length - 1) {
+                fillReview();
+                btnSubmit.style.display = 'inline-block';
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                showStep(currentStep + 1);
+            }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            showStep(currentStep - 1);
+        });
+
+        btnPrevReview.addEventListener('click', () => {
+            showStep(currentStep - 1);
+        });
+
+        // Isi review data
+        function fillReview() {
+            let reviewText = '';
+
+            const data = new FormData(form);
+            for (const [key, value] of data.entries()) {
+                if (key === 'gender' || key === 'interestedRegister') continue; // khusus handle di bawah
+                reviewText += `${key}: ${value || '-'}\n`;
+            }
+
+            // Gender
+            const gender = form.querySelector('input[name="gender"]:checked');
+            reviewText += `gender: ${gender ? gender.value : '-'}\n`;
+
+            // interestedRegister (checkbox multiple)
+            const checkedRegs = Array.from(form.querySelectorAll('input[name="interestedRegister"]:checked')).map(i => i.value);
+            reviewText += `tertarik mendaftar ke: ${checkedRegs.length ? checkedRegs.join(', ') : '-'}\n`;
+
+            reviewContent.textContent = reviewText;
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            // Submit only if valid all
+            let allValid = true;
+            for (let i = 0; i < steps.length - 1; i++) {
+                if (!validateStep(i)) {
+                    allValid = false;
+                    showStep(i);
+                    break;
+                }
+            }
+
+            if (allValid) {
+                // Submit the form (redirect)
+                window.location.href = "result.html";
+            }
+        });
+
+        // Initialize
+        showStep(0);
+
+        // Logout button
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            alert('Logout clicked! (You can implement your logout logic here)');
+        });
+    </script>
 </body>
 
 </html>

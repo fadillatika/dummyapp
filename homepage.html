@@ -1,34 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Homepage</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding-bottom: 60px;
+            /* space for bottom navbar */
+        }
+
+        nav {
+            background: #2c3e50;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #logoutBtn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .language-switch-container {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .mulai-test-container {
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .mulai-test-container a {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .mulai-test-container a:hover {
+            background-color: #2980b9;
+        }
+
+        /* Bottom navbar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #2c3e50;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .bottom-nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .bottom-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="index.html">Landing Page</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="free-trial.html">Free Trial Test</a></li>
-                <li><a href="auth.html">Authentication</a></li>
-                <li><a href="homepage.html">Homepage</a></li>
-                <li><a href="pendataan.html">Pendataan</a></li>
-                <li><a href="result.html">Result</a></li>
-                <li><a href="manage-profile.html">Manage Profile</a></li>
-                <li><button id="logoutBtn">Logout</button></li>
-            </ul>
+            <a href="index.html">Landing Page</a>
+            <a href="about.html">About Us</a>
+
+            <div class="language-switch-container">
+                <label for="lang-select" style="color: white; margin-right: 5px;">Language:</label>
+                <select id="lang-select">
+                    <option value="id">Indonesian</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+
+            <button id="logoutBtn">Logout</button>
         </nav>
+
+        <div class="mulai-test-container">
+            <a href="pendataan.html">Start Test</a>
+        </div>
     </header>
-    <main>
+
+    <main style="padding: 20px;">
         <h1>Homepage</h1>
-        <p>Welcome! You are logged in.</p>
+        <p>Welcome! You Successfully Login.</p>
     </main>
+
+    <script>
+        const langSelect = document.getElementById('lang-select');
+
+        langSelect.addEventListener('change', () => {
+            const selectedLang = langSelect.value;
+            localStorage.setItem('selectedLanguage', selectedLang);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selectedLanguage');
+            if (savedLang) {
+                langSelect.value = savedLang;
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            window.location.href = 'auth.html';
+        });
+
+    </script>
+
+    <div class="bottom-nav">
+        <a href="homepage.html">Dashboard</a>
+        <a href="result.html">Result</a>
+        <a href="manage-profile.html">Manage Profile</a>
+    </div>
+
 </body>
 
 </html>
