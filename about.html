@@ -4,31 +4,107 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>About Us</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+    <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        nav {
+            background: #2c3e50;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        #lang-switch-label {
+            cursor: pointer;
+            user-select: none;
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        #lang-switch {
+            display: none;
+        }
+
+        .language-switch-container {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .free-trial-container {
+            background-color: #f0f0f0;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="index.html">Landing Page</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="free-trial.html">Free Trial Test</a></li>
-                <li><a href="auth.html">Authentication</a></li>
-                <li><a href="homepage.html">Homepage</a></li>
-                <li><a href="pendataan.html">Pendataan</a></li>
-                <li><a href="result.html">Result</a></li>
-                <li><a href="manage-profile.html">Manage Profile</a></li>
-                <li><button id="logoutBtn" style="display:none;">Logout</button></li>
-            </ul>
+            <a href="index.html">Landing Page</a>
+            <a href="about.html">About Us</a>
+            <a href="auth.html">Authentication</a>
+            <!-- <a href="homepage.html">Homepage</a>
+            <a href="pendataan.html">Pendataan</a>
+            <a href="result.html">Result</a>
+            <a href="manage-profile.html">Manage Profile</a> -->
+
+            <div class="language-switch-container">
+                <label id="lang-switch-label" for="lang-switch">ID / EN</label>
+                <input type="checkbox" id="lang-switch" />
+            </div>
         </nav>
+
+        <!-- Free Trial Test di luar navbar -->
+        <!-- <div class="free-trial-container">
+            <a href="free-trial.html" style="text-decoration:none; color:#2c3e50;">Free Trial Test</a>
+        </div> -->
     </header>
-    <main>
-        <h1>About Us</h1>
-        <p>This is a dummy About Us page.</p>
+
+    <main style="padding: 20px;">
+        <h1>Welcome to Dummy App About Us</h1>
+        <p>This is a placeholder for the About Us.</p>
     </main>
+
+    <script>
+        const langSwitch = document.getElementById('lang-switch');
+        const langLabel = document.getElementById('lang-switch-label');
+
+        langSwitch.addEventListener('change', () => {
+            if (langSwitch.checked) {
+                langLabel.textContent = "EN / ID";
+                alert('Language switched to English');
+            } else {
+                langLabel.textContent = "ID / EN";
+                alert('Language switched to Indonesian');
+            }
+        });
+    </script>
 </body>
 
 </html>
