@@ -4,27 +4,77 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Authentication</title>
-    <link rel="stylesheet" href="styles.css" />
-    <script src="app.js" defer></script>
+    <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        nav {
+            background: #2c3e50;
+            padding: 10px;
+            color: white;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .language-switch-container {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        .language-switch-container select {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+        }
+
+        .free-trial-container {
+            background-color: #f0f0f0;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+    </style>
 </head>
 
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="index.html">Landing Page</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="free-trial.html">Free Trial Test</a></li>
-                <li><a href="auth.html">Authentication</a></li>
-                <li><a href="homepage.html">Homepage</a></li>
-                <li><a href="pendataan.html">Pendataan</a></li>
-                <li><a href="result.html">Result</a></li>
-                <li><a href="manage-profile.html">Manage Profile</a></li>
-                <li><button id="logoutBtn" style="display:none;">Logout</button></li>
-            </ul>
+            <a href="index.html">Landing Page</a>
+            <a href="about.html">About Us</a>
+            <a href="auth.html">Authentication</a>
+            <div class="language-switch-container">
+                <label for="lang-select" style="color: white; margin-right: 5px;">Language:</label>
+                <select id="lang-select">
+                    <option value="id">Indonesian</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
         </nav>
     </header>
+
+    <main style="padding: 20px;">
+        <h1>Welcome to Dummy App Login</h1>
+        <p>This is a placeholder for the Login.</p>
+    </main>
+
     <main>
         <h1>Login</h1>
         <form id="loginForm">
@@ -40,6 +90,45 @@
         </form>
         <p id="loginMsg" style="color:red;"></p>
     </main>
+
+    <script>
+        const langSelect = document.getElementById('lang-select');
+
+        langSelect.addEventListener('change', () => {
+            const selectedLang = langSelect.value;
+            // if (selectedLang === 'en') {
+            //     alert('Language switched to English');
+            // } else {
+            //     alert('Language switched to Indonesian');
+            // }
+            localStorage.setItem('selectedLanguage', selectedLang);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selectedLanguage');
+            if (savedLang) {
+                langSelect.value = savedLang;
+            }
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const loginMsg = document.getElementById('loginMsg');
+
+            const validEmail = "user@example.com";
+            const validPassword = "password123";
+
+            if (username === validEmail && password === validPassword) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = "homepage.html";
+            } else {
+                loginMsg.textContent = "Invalid email or password.";
+            }
+        });
+    </script>
 </body>
 
 </html>

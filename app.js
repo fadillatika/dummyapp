@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
 
       // Dummy auth: user = test, pass = 123
-      if (username === "test" && password === "123") {
+      if (email === "test@mail.com" && password === "123") {
         localStorage.setItem("loggedIn", "true");
         updateUI();
         window.location.href = "homepage.html";

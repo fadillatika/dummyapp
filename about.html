@@ -31,25 +31,16 @@
             text-decoration: underline;
         }
 
-        #lang-switch-label {
-            cursor: pointer;
-            user-select: none;
-            background: #ecf0f1;
-            color: #2c3e50;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-weight: bold;
-            font-size: 14px;
-            display: inline-block;
-        }
-
-        #lang-switch {
-            display: none;
-        }
-
         .language-switch-container {
             margin-left: auto;
             margin-right: 20px;
+        }
+
+        .language-switch-container select {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
         }
 
         .free-trial-container {
@@ -69,39 +60,43 @@
             <a href="index.html">Landing Page</a>
             <a href="about.html">About Us</a>
             <a href="auth.html">Authentication</a>
-            <!-- <a href="homepage.html">Homepage</a>
-            <a href="pendataan.html">Pendataan</a>
-            <a href="result.html">Result</a>
-            <a href="manage-profile.html">Manage Profile</a> -->
-
             <div class="language-switch-container">
-                <label id="lang-switch-label" for="lang-switch">ID / EN</label>
-                <input type="checkbox" id="lang-switch" />
+                <label for="lang-select" style="color: white; margin-right: 5px;">Language:</label>
+                <select id="lang-select">
+                    <option value="id">Indonesian</option>
+                    <option value="en">English</option>
+                </select>
             </div>
         </nav>
-
-        <!-- Free Trial Test di luar navbar -->
-        <!-- <div class="free-trial-container">
-            <a href="free-trial.html" style="text-decoration:none; color:#2c3e50;">Free Trial Test</a>
-        </div> -->
     </header>
 
     <main style="padding: 20px;">
-        <h1>Welcome to Dummy App About Us</h1>
-        <p>This is a placeholder for the About Us.</p>
+        <h1 id="page-title">Welcome to Dummy App About Us</h1>
+        <p id="page-desc">This is a placeholder for the About Us.</p>
     </main>
 
     <script>
-        const langSwitch = document.getElementById('lang-switch');
-        const langLabel = document.getElementById('lang-switch-label');
+        const langSelect = document.getElementById('lang-select');
+        const title = document.getElementById('page-title');
+        const desc = document.getElementById('page-desc');
 
-        langSwitch.addEventListener('change', () => {
-            if (langSwitch.checked) {
-                langLabel.textContent = "EN / ID";
-                alert('Language switched to English');
+        langSelect.addEventListener('change', () => {
+            const selectedLang = langSelect.value;
+            if (selectedLang === 'en') {
+                title.textContent = "Welcome to Dummy App About Us";
+                desc.textContent = "This is a placeholder for the About Us.";
             } else {
-                langLabel.textContent = "ID / EN";
-                alert('Language switched to Indonesian');
+                title.textContent = "Selamat datang di Halaman Tentang Kami";
+                desc.textContent = "Ini adalah placeholder untuk halaman Tentang Kami.";
+            }
+            localStorage.setItem('selectedLanguage', selectedLang);
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('selectedLanguage');
+            if (savedLang) {
+                langSelect.value = savedLang;
+                langSelect.dispatchEvent(new Event('change'));
             }
         });
     </script>
